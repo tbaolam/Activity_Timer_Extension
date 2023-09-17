@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const timerInput = document.getElementById('timerInput');
   const startTimerBtn = document.getElementById('startTimer');
   const timerDisplay = document.getElementById('timerDisplay');
-  //let countdown;
+  const youtubeTabCountDisplay = document.getElementById('youtubeTabCount');
 
   startTimerBtn.addEventListener('click', async function () {
     const minutes = parseInt(timerInput.value);
@@ -13,12 +13,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  chrome.storage.local.get(['youtubeTabCount'], function (result) {
+    if (result.youtubeTabCount !== undefined) {
+      youtubeTabCountDisplay.textContent = `YouTube Tabs: ${result.youtubeTabCount}`;
+    }
+  });
+
+  chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.action === 'updateTimerDisplay') {
       const remainingTime = request.remainingTime;
       const minutes = Math.floor(remainingTime / 60000);
       const seconds = Math.floor((remainingTime % 60000) / 1000);
       timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    } else if (request.action === 'updateYoutubeTabCount') {
+      // Update the YouTube tab count
+      const youtubeTabCount = request.count;
+      youtubeTabCountDisplay.textContent = `YouTube Tabs: ${youtubeTabCount}`;
     }
   });
 

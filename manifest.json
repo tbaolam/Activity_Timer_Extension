@@ -3,10 +3,11 @@
     "name": "Timer Extension",
     "version": "1.0",
     "description": "A simple timer extension.",
-    "permissions": ["notifications"],
+    "permissions": ["notifications", "tabs", "activeTab","storage"],
     "background":{
         "service_worker": "background.js"
     },
+    "host_permissions": ["https://*.youtube.com/*"],
     "action": {
       "default_popup": "popup.html",
       "default_icon": {

@@ -1,11 +1,40 @@
 let countdown;
 let endTime;
+let youtubeTabCount = 0;
+let countedTabs = {};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'startTimer') {
     const minutes = request.minutes;
+
+    // Reset the YouTube tab count
+    youtubeTabCount = 0;
+    countedTabs = {};
+
+    // Store the updated count in local storage
+    chrome.storage.local.set({ 'youtubeTabCount': youtubeTabCount });
+    // Send to the popup script for display
+    chrome.runtime.sendMessage({ action: 'updateYoutubeTabCount', count: youtubeTabCount });
+    
     endTime = Date.now() + minutes * 60000;
     startCountdown();
+  }
+});
+
+
+// Listen for tab updates, specifically when a tab is updated (e.g., user navigates to a new URL)
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  // Check if the tab's URL contains 'youtube.com'
+  if (tab.url && tab.url.includes('youtube.com')) {
+    if (!countedTabs[tab.url]){
+      youtubeTabCount++;
+      countedTabs[tab.url] = true;
+      chrome.storage.local.set({'youtubeTabCount': youtubeTabCount});
+      console.log("counting: " + youtubeTabCount);
+
+      // sending it to the popup script for display.
+      chrome.runtime.sendMessage({ action: 'updateYoutubeTabCount', count: youtubeTabCount });
+    }
   }
 });
 
