@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   chrome.storage.local.get(['youtubeTabCount'], function (result) {
     if (result.youtubeTabCount !== undefined) {
-      youtubeTabCountDisplay.textContent = `YouTube Tabs: ${result.youtubeTabCount}`;
+      youtubeTabCountDisplay.textContent = `YouTube Tabs Count: ${result.youtubeTabCount}`;
     }
   });
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (request.action === 'updateYoutubeTabCount') {
       // Update the YouTube tab count
       const youtubeTabCount = request.count;
-      youtubeTabCountDisplay.textContent = `YouTube Tabs: ${youtubeTabCount}`;
+      youtubeTabCountDisplay.textContent = `YouTube Tabs Count: ${youtubeTabCount}`;
     }
   });
 

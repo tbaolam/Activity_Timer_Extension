@@ -1,15 +1,16 @@
+
 let countdown;
 let endTime;
 let youtubeTabCount = 0;
 let countedTabs = {};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // Reset the YouTube tab count
+  youtubeTabCount = 0;
+  countedTabs = {};
+
   if (request.action === 'startTimer') {
     const minutes = request.minutes;
-
-    // Reset the YouTube tab count
-    youtubeTabCount = 0;
-    countedTabs = {};
 
     // Store the updated count in local storage
     chrome.storage.local.set({ 'youtubeTabCount': youtubeTabCount });
@@ -30,7 +31,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       youtubeTabCount++;
       countedTabs[tab.url] = true;
       chrome.storage.local.set({'youtubeTabCount': youtubeTabCount});
-      console.log("counting: " + youtubeTabCount);
 
       // sending it to the popup script for display.
       chrome.runtime.sendMessage({ action: 'updateYoutubeTabCount', count: youtubeTabCount });
