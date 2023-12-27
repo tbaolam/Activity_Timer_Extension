@@ -1,0 +1,54 @@
+body {
+  width: 200px;
+}
+
+.blue-box {
+    background-color: blue;
+    text-align: center;
+    padding: 5px; /* Decreased padding */
+}
+
+.blue-box h2 {
+    color: white;
+}
+
+.logo {
+    width: 25px;
+    height: 25px;
+}
+
+#startTimer,
+#timerInput {
+    display: inline-block;
+    width: 90px;
+    height: 20px;
+    margin-top: 5px;
+}
+
+#youtube{
+    color: red;
+    font-family: Arial, sans-serif;
+    font-size: medium;
+}
+
+#youtubeTabCount {
+    font-family: Arial, sans-serif;
+    font-size: medium;
+}
+
+#facebook {
+    color: blue;
+    font-family: Arial, sans-serif;
+    font-size: medium;
+}
+
+#facebookTabCount {
+    font-family: Arial, sans-serif;
+    font-size: medium;
+}
+
+#timerDisplay {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    margin-top: 5px;
+}

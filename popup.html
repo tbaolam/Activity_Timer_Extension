@@ -2,19 +2,20 @@
 <html>
 <head>
   <title>Timer Extension</title>
-  <style>
-    body {
-      width: 200px;
-    }
-  </style>
 </head>
 <body>
-  <h1>Timer Extension</h1>
+  <div class="blue-box">
+    <h2>Timer Extension <img src="/images/icon128.png" alt="Logo" class="logo"></h2>    
+  </div>
   <input type="number" id="timerInput" placeholder="Enter time (minutes)">
   <button id="startTimer">Start</button>
-  <div id="timerDisplay">00:00</div>
-  <div id="youtubeTabCount">YouTube Tabs Count: 0</div> <!-- Add this element to display the count -->
-
+  <div id="timerDisplay"></div>
+  <div>
+    <p id="youtube" style="display: inline;">YouTube </p><p id="youtubeTabCount" style="display: inline;"> </p>
+    <p id="facebook" style="display: inline;">Facebook </p><p id="facebookTabCount" style="display: inline;"> </p>
+  </div>
   <script src="popup.js"></script>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+
 </body>
 </html>
