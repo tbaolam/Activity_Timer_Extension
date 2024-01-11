@@ -26,16 +26,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  chrome.storage.local.get(['youtubeTabCount', 'facebookTabCount'], function (result) {
+chrome.storage.local.get(['tabCounts'], function (result) {
+  if (result.tabCounts !== undefined) {
+    for (const [hostname, count] of Object.entries(result.tabCounts)) {
+      updateTabCountDisplay(hostname, count);
+
+      /*
+      const tabCountDisplay = document.getElementById(`${hostname}TabCount`);
+      if (tabCountDisplay) {
+        tabCountDisplay.textContent = `Tabs Count: ${count}`;
+      }*/
+    }
+  }
+});
+  
+  /*chrome.storage.local.get(['youtubeTabCount', 'facebookTabCount'], function (result) {
     if (result.youtubeTabCount !== undefined) {
       youtubeTabCountDisplay.textContent = `Tabs Count: ${result.youtubeTabCount}`;
     }
     if (result.facebookTabCount !== undefined) {
       facebookTabCountDisplay.textContent = `Tabs Count: ${result.facebookTabCount}`;
     }
-  });
+  });*/
 
-  chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request) => {
+  if (request.action === 'updateTimerDisplay') {
+    const remainingTime = request.remainingTime;
+    updateTimerDisplay(remainingTime);
+  }
+  else if (request.action === 'updateTabCounts') {
+    for (const [hostname, count] of Object.entries(request.counts)) {
+      updateTabCountDisplay(hostname, count);
+      /*
+      const tabCountDisplay = document.getElementById(`${hostname}TabCount`);
+      if (tabCountDisplay) {
+        tabCountDisplay.textContent = `Tabs Count: ${count}`;
+      }*/
+    }
+  }
+});
+
+  /*chrome.runtime.onMessage.addListener((request) => {
     if (request.action === 'updateTimerDisplay') {
       const remainingTime = request.remainingTime;
       updateTimerDisplay(remainingTime);
@@ -48,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const facebookTabCount = request.count;
       facebookTabCountDisplay.textContent = `Tabs Count: ${facebookTabCount}`;
     }
-  });
+  });*/
 
   function sendMessageToBackground(message) {
     return new Promise((resolve) => {
@@ -56,6 +87,18 @@ document.addEventListener('DOMContentLoaded', function () {
         resolve(response);
       });
     });
+  }
+
+  function updateTabCountDisplay(hostname, count) {
+    let tabCountDisplay = document.getElementById(`${hostname}TabCount`);
+  
+    if (!tabCountDisplay) {
+      tabCountDisplay = document.createElement('div');
+      tabCountDisplay.id = `${hostname}TabCount`;
+      document.body.appendChild(tabCountDisplay);
+    }
+  
+    tabCountDisplay.textContent = `${hostname} Tabs Count: ${count}`;
   }
 
 });
