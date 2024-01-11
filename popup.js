@@ -35,24 +35,9 @@ chrome.storage.local.get(['tabCounts'], function (result) {
   if (result.tabCounts !== undefined) {
     for (const [hostname, count] of Object.entries(result.tabCounts)) {
       updateTabCountDisplay(hostname, count);
-
-      /*
-      const tabCountDisplay = document.getElementById(`${hostname}TabCount`);
-      if (tabCountDisplay) {
-        tabCountDisplay.textContent = `Tabs Count: ${count}`;
-      }*/
     }
   }
 });
-  
-  /*chrome.storage.local.get(['youtubeTabCount', 'facebookTabCount'], function (result) {
-    if (result.youtubeTabCount !== undefined) {
-      youtubeTabCountDisplay.textContent = `Tabs Count: ${result.youtubeTabCount}`;
-    }
-    if (result.facebookTabCount !== undefined) {
-      facebookTabCountDisplay.textContent = `Tabs Count: ${result.facebookTabCount}`;
-    }
-  });*/
 
 chrome.runtime.onMessage.addListener((request) => {
   if (request.action === 'updateTimerDisplay') {
@@ -62,29 +47,9 @@ chrome.runtime.onMessage.addListener((request) => {
   else if (request.action === 'updateTabCounts') {
     for (const [hostname, count] of Object.entries(request.counts)) {
       updateTabCountDisplay(hostname, count);
-      /*
-      const tabCountDisplay = document.getElementById(`${hostname}TabCount`);
-      if (tabCountDisplay) {
-        tabCountDisplay.textContent = `Tabs Count: ${count}`;
-      }*/
     }
   }
 });
-
-  /*chrome.runtime.onMessage.addListener((request) => {
-    if (request.action === 'updateTimerDisplay') {
-      const remainingTime = request.remainingTime;
-      updateTimerDisplay(remainingTime);
-    } else if (request.action === 'updateYoutubeTabCount') {
-      // Update the YouTube tab count
-      const youtubeTabCount = request.count;
-      youtubeTabCountDisplay.textContent = `Tabs Count: ${youtubeTabCount}`;
-    } else if (request.action === 'updateFacebookTabCount') {
-      // Update the Facebook tab count
-      const facebookTabCount = request.count;
-      facebookTabCountDisplay.textContent = `Tabs Count: ${facebookTabCount}`;
-    }
-  });*/
 
   function sendMessageToBackground(message) {
     return new Promise((resolve) => {
