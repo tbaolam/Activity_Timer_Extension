@@ -3,8 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const timerInput = document.getElementById('timerInput');
   const startTimerBtn = document.getElementById('startTimer');
   const timerDisplay = document.getElementById('timerDisplay');
-  const youtubeTabCountDisplay = document.getElementById('youtubeTabCount');
-  const facebookTabCountDisplay = document.getElementById('facebookTabCount'); // Add Facebook tab count display element
+  const websiteNames = {
+    'www.facebook.com': 'Facebook',
+    'www.youtube.com': 'YouTube',
+    'www.twitch.tv': 'Twitch',
+    'www.instagram.com': 'Instagram',
+    'www.amazon.com': 'Amazon'
+  }
 
   // Function to update the timer display
   function updateTimerDisplay(remainingTime) {
@@ -90,6 +95,7 @@ chrome.runtime.onMessage.addListener((request) => {
   }
 
   function updateTabCountDisplay(hostname, count) {
+    let websiteName = websiteNames[hostname] || hostname;
     let tabCountDisplay = document.getElementById(`${hostname}TabCount`);
   
     if (!tabCountDisplay) {
@@ -98,7 +104,7 @@ chrome.runtime.onMessage.addListener((request) => {
       document.body.appendChild(tabCountDisplay);
     }
   
-    tabCountDisplay.textContent = `${hostname} Tabs Count: ${count}`;
+    tabCountDisplay.textContent = `${websiteName} Tabs Count: ${count}`;
   }
 
 });
