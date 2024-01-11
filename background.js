@@ -1,10 +1,11 @@
 
 let countdown;
 let endTime;
-let youtubeTabCount = 0;
-let facebookTabCount = 0;
+//let youtubeTabCount = 0;
+//let facebookTabCount = 0;
 let countedTabs = {};
 let tabCounts = {};
+let socialMediaHostnames = ['www.facebook.com', 'www.youtube.com', 'www.twitch.tv', 'www.instagram.com', 'www.amazon.com'];
 
 /*chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
   // Reset the YouTube and Facebook tab counts
@@ -48,18 +49,20 @@ chrome.tabs.onUpdated.addListener((_tabId, _changeInfo, tab) => {
   const url = new URL(tab.url);
   const hostname = url.hostname;
 
-  if (!tabCounts[hostname]) {
-    tabCounts[hostname] = 0;
-  }
-  if (!countedTabs[tab.url]) {
-    tabCounts[hostname]++;
-    countedTabs[tab.url] = true;
-    chrome.storage.local.set({ 'tabCounts': tabCounts });
-  }
+  if (socialMediaHostnames.includes(hostname)) {
+    if (!tabCounts[hostname]) {
+      tabCounts[hostname] = 0;
+    }
+    if (!countedTabs[tab.url]) {
+      tabCounts[hostname]++;
+      countedTabs[tab.url] = true;
+      chrome.storage.local.set({ 'tabCounts': tabCounts });
+    }
 
-  // Send to the popup script for display
-  if (chrome.runtime.sendMessage)
-    chrome.runtime.sendMessage({ action: 'updateTabCounts', counts: tabCounts });
+    // Send to the popup script for display
+    if (chrome.runtime.sendMessage)
+      chrome.runtime.sendMessage({ action: 'updateTabCounts', counts: tabCounts });
+}
 });
 
 /*// Listen for tab updates, specifically when a tab is updated (e.g., user navigates to a new URL)
@@ -107,7 +110,7 @@ function startCountdown() {
           type: 'basic',
           iconUrl: 'images/icon48.png',
           title: 'Session Complete!',
-          message: `You visited ${totalTabCount} websites during your session.`
+          message: `You were distracted by ${totalTabCount} websites during your session.`
           //message: `You visited ${youtubeTabCount} YouTube tabs and ${facebookTabCount} Facebook tabs during your session.`,
         });
       }
