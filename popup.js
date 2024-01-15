@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const timerInput = document.getElementById('timerInput');
   const startTimerBtn = document.getElementById('startTimer');
   const timerDisplay = document.getElementById('timerDisplay');
+  const addWebsiteBtn = document.getElementById('addWebsite');
+  const websiteInput = document.getElementById('websiteInput');
   const websiteNames = {
     'www.facebook.com': 'Facebook',
     'www.youtube.com': 'YouTube',
@@ -10,6 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
     'www.instagram.com': 'Instagram',
     'www.amazon.com': 'Amazon'
   }
+
+  addWebsiteBtn.addEventListener('click', function () {
+    const website = websiteInput.value;
+    // Add website to the list of websiteNames
+    websiteNames[website] = website;
+    if (website) {
+      sendMessageToBackground({ action: 'addWebsite', website });
+    }
+  });
 
   // Function to update the timer display
   function updateTimerDisplay(remainingTime) {

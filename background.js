@@ -13,6 +13,11 @@ chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
   countedTabs = {};
   tabCounts = {};
 
+  if (request.action === 'addWebsite') {
+    const website = request.website;
+    socialMediaHostnames.push(website);
+  }
+
   if (request.action === 'startTimer') {
     const minutes = request.minutes;
     // Store the updated counts in local storage
