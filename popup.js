@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
     'www.amazon.com': 'Amazon'
   }
 
+  const viewTrackedWebsitesBtn = document.getElementById('viewTrackedWebsites');
+
+  viewTrackedWebsitesBtn.addEventListener('click', function () {
+    chrome.tabs.create({ url: 'trackedWebsites.html' });
+  });
+
   addWebsiteBtn.addEventListener('click', function () {
     const website = websiteInput.value;
     // Add website to the list of websiteNames
@@ -65,7 +71,9 @@ chrome.runtime.onMessage.addListener((request) => {
   function sendMessageToBackground(message) {
     return new Promise((resolve) => {
       chrome.runtime.sendMessage(message, (response) => {
-        resolve(response);
+        window.setTimeout(() => {
+          resolve(response);
+        }, 5000); // Delay of 5 seconds
       });
     });
   }

@@ -6,6 +6,12 @@ let endTime;
 let countedTabs = {};
 let tabCounts = {};
 let socialMediaHostnames = ['www.facebook.com', 'www.youtube.com', 'www.twitch.tv', 'www.instagram.com', 'www.amazon.com'];
+// Loop through socialMediaHostnames
+for (const hostname of socialMediaHostnames) {
+  // Store the social media hostnames in local storage
+  chrome.storage.local.set({ 'socialMediaHostnames': socialMediaHostnames });
+}
+
 
 
 chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
@@ -16,6 +22,7 @@ chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
   if (request.action === 'addWebsite') {
     const website = request.website;
     socialMediaHostnames.push(website);
+    chrome.storage.local.set({ 'socialMediaHostnames': socialMediaHostnames });
   }
 
   if (request.action === 'startTimer') {
@@ -28,7 +35,12 @@ chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
 
     endTime = Date.now() + minutes * 60000;
     startCountdown();
+
+    
   }
+
+  // Always call sendResponse, even if you don't have any data to send back.
+  sendResponse({});
 });
 
 chrome.tabs.onUpdated.addListener((_tabId, _changeInfo, tab) => {
