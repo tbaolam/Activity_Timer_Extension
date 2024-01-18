@@ -15,9 +15,6 @@ for (const hostname of socialMediaHostnames) {
 
 
 chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
-  // Reset tab counts
-  countedTabs = {};
-  tabCounts = {};
 
   if (request.action === 'addWebsite') {
     const website = request.website;
@@ -25,7 +22,20 @@ chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
     chrome.storage.local.set({ 'socialMediaHostnames': socialMediaHostnames });
   }
 
+  if (request.action === 'removeWebsite') {
+    const website = request.website;
+    const index = socialMediaHostnames.indexOf(website);
+    if (index > -1) {
+      socialMediaHostnames.splice(index, 1);
+      chrome.storage.local.set({ 'socialMediaHostnames': socialMediaHostnames });
+    }
+  }
+
   if (request.action === 'startTimer') {
+    // Reset tab counts
+    countedTabs = {};
+    tabCounts = {};
+
     const minutes = request.minutes;
     // Store the updated counts in local storage
     chrome.storage.local.set({ 'tabCounts': tabCounts });
@@ -40,7 +50,7 @@ chrome.runtime.onMessage.addListener((request, _sender, _sendResponse) => {
   }
 
   // Always call sendResponse, even if you don't have any data to send back.
-  sendResponse({});
+  //sendResponse({});
 });
 
 chrome.tabs.onUpdated.addListener((_tabId, _changeInfo, tab) => {
