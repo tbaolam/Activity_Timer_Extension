@@ -1,1 +1,3 @@
-This works like a pomodoro timer
+This works like a pomodoro timer.
+
+Work still in process.
