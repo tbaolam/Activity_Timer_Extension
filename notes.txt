@@ -2,4 +2,4 @@ This works like a pomodoro timer.
 
 Work still in process. Gave it up for a while now
 
-Needs to update UI
+Needs to update UI, Font, logo
