@@ -1,5 +1,5 @@
 This works like a pomodoro timer.
 
-Work still in process. Gave it up for a while now
+Work still in process. Gave it up for a while now, still not touching it
 
 Needs to update UI, Font, logo
